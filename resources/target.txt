@@ -1,0 +1,14 @@
+1.
+- Pick images
+- Alter images/create keypoints# files
+- Create I/O
+- Research libraries
+
+2. 
+- Use library to implement Alignment
+
+3.
+- Use library to implement spatial
+
+3. 
+- Use library to implement frequency

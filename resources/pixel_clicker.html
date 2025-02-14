@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Pixel Coordinate Finder</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #image-container { position: relative; display: inline-block; margin-top: 20px; }
+        #coords { margin-top: 10px; font-size: 18px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>Click on the Image to Get Pixel Coordinates</h2>
+    
+    <input type="file" id="upload" accept="image/*">
+    <div id="image-container">
+        <img id="image" style="max-width: 100%; display: none;">
+    </div>
+    
+    <p id="coords">Click on the image to see coordinates.</p>
+
+    <script>
+        const upload = document.getElementById('upload');
+        const image = document.getElementById('image');
+        const coordsDisplay = document.getElementById('coords');
+
+        upload.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    image.src = e.target.result;
+                    image.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        image.addEventListener('click', function(event) {
+            const rect = image.getBoundingClientRect();
+            const x = Math.round(event.clientX - rect.left);
+            const y = Math.round(event.clientY - rect.top);
+            coordsDisplay.textContent = `X: ${x}, Y: ${y}`;
+        });
+    </script>
+
+</body>
+</html>
