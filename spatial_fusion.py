@@ -11,8 +11,10 @@ Fuses image1 with image2 using Laplacian and Gaussian filtering
 :type image1: ndarray
 :param image2: The ndarray of the second image
 :type image2: ndarray
-:param sigma: The magnitude of blur used with Gaussian filtering
-:type sigma: float
+:param gaussian_tier: The tier of the Gaussian pyramid we want our image to be
+:type gaussian_tier: number
+:param laplacian_tier: The tier of the Laplacian pyramid we want our image to be
+:type laplacian_tier: number
 :param alpha: The magnitude of first image within the overlapped image
 :type alpha: float
 

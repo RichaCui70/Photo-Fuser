@@ -66,9 +66,9 @@ def image_warping(image1_keypoints=[], image2_keypoints=[], image2=None):
 """
 Overlaps image1 with image2
 
-:param image1: The ndarray of the first image
+:param image1: The ndarray of the first image. Must be in uint8 format
 :type image1: ndarray
-:param image2: The ndarray of the second image
+:param image2: The ndarray of the second image. Must be in uint8 format
 :type image2: ndarray
 :param alpha: The magnitude of first image within the overlapped image
 :type alpha: float
@@ -81,11 +81,8 @@ Overlaps image1 with image2
 def overlap_images(image1=None, image2=None, alpha=0.5, save_image=False):
     if image1 is None or image2 is None:
         raise Exception("Missing an image!")
-    
-    byte_image1 = ski.util.img_as_ubyte(image1)
-    byte_image2 = ski.util.img_as_ubyte(image2)
 
-    overlapped_image = np.ubyte(alpha*byte_image1 + (1-alpha)*byte_image2)
+    overlapped_image = np.ubyte(alpha*image1 + (1-alpha)*image2)
 
     if save_image: plt.imsave("aligned.jpg", overlapped_image)
 
