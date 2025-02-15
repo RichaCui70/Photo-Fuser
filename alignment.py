@@ -4,6 +4,25 @@ import matplotlib.pyplot as plt
 
 
 """
+Read the keypoints of a text file via the path to the file
+
+:param path: The path to the text file
+:type path: string
+
+:return: An array of tuples shown through keypoints
+:rtype: array
+"""
+def read_keypoints(path=""):
+
+    keypoints = []
+    with open(path) as f:
+        all_lines = f.readlines()
+        for i in range(0, len(all_lines)):
+            keypoints.append(tuple(map(int, all_lines[i][:-1].split())))
+
+    return keypoints if len(keypoints) > 0 else None
+
+"""
 Aligns keypoints from image 2 to image 1, warping image 2 based off the resulting alignment
 
 :param image1_keypoints: The keypoints of the first image
@@ -41,8 +60,8 @@ def image_warping(image1_keypoints=[], image2_keypoints=[], image2=None):
 
     # Apply transformation
     aligned_image2 = ski.transform.warp(image2, tform.inverse, output_shape=image2.shape)
-
-    return aligned_image2
+    
+    return ski.util.img_as_ubyte(aligned_image2)
 
 """
 Overlaps image1 with image2

@@ -19,12 +19,22 @@ Fuses image1 with image2 using Laplacian and Gaussian filtering
 :return: A fused image between image1 and image2
 :rtype: ndarray
 """
-def fuse_photos_spatial(image1=None, image2=None, sigma=3.0, alpha=0.5):
+def fuse_photos_spatial(image1=None, image2=None, gaussian_tier=0, laplacian_tier=0, alpha=0.5):
     if image1 is None or image2 is None:
         raise Exception("Missing an image!")
-    
-    gaussian = ski.filters.gaussian(image1, sigma=sigma)
-    laplacian = ski.filters.laplace(image2)
 
-    overlapped_image = overlap_images(gaussian, laplacian, alpha=alpha)
+
+    image1_guassian_pyramid = tuple(ski.transform.pyramid_gaussian(image1, downscale=2, channel_axis=-1))
+    image1_gaussian_small = image1_guassian_pyramid[1:][gaussian_tier]
+    image1_gaussian_small_normalized = np.ubyte((image1_gaussian_small - image1_gaussian_small.min()) / (image1_gaussian_small.max() - image1_gaussian_small.min()) * 255)
+    image1_gaussian = ski.transform.resize(image1_gaussian_small_normalized, image1.shape)
+    plt.imsave("image1_gaussian.jpg", image1_gaussian)
+
+    image2_laplacian_pyramid = tuple(ski.transform.pyramid_laplacian(image2, downscale=2, channel_axis=-1))
+    image2_laplacian_small = image2_laplacian_pyramid[1:][laplacian_tier]
+    image2_laplacian_small_normalized = np.ubyte((image2_laplacian_small - image2_laplacian_small.min()) / (image2_laplacian_small.max() - image2_laplacian_small.min()) * 255)
+    image2_laplacian = ski.transform.resize(image2_laplacian_small_normalized, image2.shape)
+    plt.imsave("image2_laplacian.jpg", image2_laplacian)
+
+    overlapped_image = overlap_images(image1_gaussian, image2_laplacian, alpha=alpha)
     plt.imsave("spatial_hybrid.jpg", overlapped_image)
