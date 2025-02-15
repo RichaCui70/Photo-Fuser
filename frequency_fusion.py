@@ -30,13 +30,17 @@ def fuse_photos_freq(image1=None, image2=None, low_pass_cutoff=0.08, high_pass_c
         cutoff_frequency_ratio=low_pass_cutoff,
         high_pass=False
     )
-    low_pass = np.ubyte(low_pass)
+    low_pass_normalized = np.ubyte((low_pass - low_pass.min()) / (low_pass.max() - low_pass.min()) * 255)
+    print(low_pass.dtype)
+    # image1_gaussian = ski.transform.resize(low_pass_normalized, image1.shape)
 
     high_pass = ski.filters.butterworth(
         image=image2,
         cutoff_frequency_ratio=high_pass_cutoff,
         high_pass=True
     )
+    
+    print(high_pass.dtype)
 
-    overlapped_image = overlap_images(low_pass, high_pass, alpha=alpha)
-    plt.imsave("frequency_hybrid.jpg", overlapped_image)
+    # overlapped_image = overlap_images(low_pass, high_pass, alpha=alpha)
+    # plt.imsave("frequency_hybrid.jpg", overlapped_image)

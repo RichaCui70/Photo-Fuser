@@ -30,13 +30,12 @@ def fuse_photos_spatial(image1=None, image2=None, gaussian_tier=0, laplacian_tie
     image1_gaussian_small = image1_guassian_pyramid[1:][gaussian_tier]
     image1_gaussian_small_normalized = np.ubyte((image1_gaussian_small - image1_gaussian_small.min()) / (image1_gaussian_small.max() - image1_gaussian_small.min()) * 255)
     image1_gaussian = ski.transform.resize(image1_gaussian_small_normalized, image1.shape)
-    plt.imsave("image1_gaussian.jpg", image1_gaussian)
 
     image2_laplacian_pyramid = tuple(ski.transform.pyramid_laplacian(image2, downscale=2, channel_axis=-1))
     image2_laplacian_small = image2_laplacian_pyramid[1:][laplacian_tier]
     image2_laplacian_small_normalized = np.ubyte((image2_laplacian_small - image2_laplacian_small.min()) / (image2_laplacian_small.max() - image2_laplacian_small.min()) * 255)
     image2_laplacian = ski.transform.resize(image2_laplacian_small_normalized, image2.shape)
-    plt.imsave("image2_laplacian.jpg", image2_laplacian)
+
 
     overlapped_image = overlap_images(image1_gaussian, image2_laplacian, alpha=alpha)
     plt.imsave("spatial_hybrid.jpg", overlapped_image)
