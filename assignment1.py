@@ -29,5 +29,5 @@ if __name__ == "__main__":
         image2 = image_warping(image1_keypoints=keypoints1, image2_keypoints=keypoints2, image2=image2)
         
     # overlap_images(image1, image2, save_image=True)
-    fuse_photos_spatial(image1=image1, image2=image2)
-    # fuse_photos_freq(image1=image1, image2=image2, alpha=0.5)
+    # fuse_photos_spatial(image1=image1, image2=image2)
+    fuse_photos_freq(image1=image1, image2=image2, alpha=0.5)
