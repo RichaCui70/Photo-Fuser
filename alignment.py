@@ -81,6 +81,8 @@ Overlaps image1 with image2
 def overlap_images(image1=None, image2=None, alpha=0.5, save_image=False):
     if image1 is None or image2 is None:
         raise Exception("Missing an image!")
+    if alpha < 0 or alpha > 1:
+        raise Exception("Alpha should be within 0..1")
 
     overlapped_image = ski.util.img_as_ubyte(alpha*image1 + (1-alpha)*image2)
 

@@ -24,6 +24,8 @@ Fuses image1 with image2 using Frquency Fournier Transform (FFT) based filtering
 def fuse_photos_freq(image1=None, image2=None, low_pass_cutoff=0.08, high_pass_cutoff=0.08, alpha=0.5):
     if image1 is None or image2 is None:
         raise Exception("Missing an image!")
+    if alpha < 0 or alpha > 1:
+        raise Exception("Alpha should be within 0..1")
 
     low_pass_filtered = ski.filters.butterworth(
         image=image1,
